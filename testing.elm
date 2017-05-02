@@ -2,11 +2,47 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import String
+import Svg exposing (..)
+import Svg.Attributes exposing (..)
 
+width = 400
+height = 400
+
+-- midpoint
+midpoint: Point -> Point -> Point
+midpoint p1 p2 =
+    {x = ((p1.x + p2.x) / 2.0), y = ((p1.y + p2.y) / 2.0)}
+
+type alias Point =
+  { x : Float, y : Float}
+
+--generate points string
+--genpoints: Int -> Int -> Int -> String
+--genpoints order w h =
+--  "200,10 10,390 390,390"
+
+genpoints: Int -> Int -> Int -> String
+genpoints order w h =
+    let
+        pointToString : { x : number, y: number } -> String
+        pointToString =
+            toString x ++ "," ++ toString y
+    in
+        if order == 0
+            let
+                p1 = {x = (w / 2), y = 10}
+                p2 = {x = 10, y = (h - 10)}
+                p3 = {x = (w - 10), y = (h - 10)}
+            in
+                [ p1, p2, p3 ]
+                    |> List.map pointToString
+                    |> String.join " "
+        else
+          ""
 
 main =
   Html.beginnerProgram
-  { model = model
+  { model = initialmodel
   , view = view
   , update = update
   }
@@ -14,73 +50,46 @@ main =
 -- model
 
 type alias Model =
-  { p1x : Int
-  , p1y : Int
-  , p2x : Int
-  , p2y : Int
-  , point1 : Point
-  , point2 : Point
-  }
+  { fracOrder : Int }
 
 
-model : Model
-model =
- Model "" "" "" "" "" ""
+initialmodel : Model
+initialmodel =
+ Model 0
 
 
 -- update
 
--- distance
-distance: Point -> Point -> String
-distance p1 p2 =
-  sqrt  (((p2.x-p1.x)^2 + (p2.y-p1.y)^2) |> toFloat)
-  |> toString
-
-type alias Point =
-  { x : Int, y : Int}
-
 type Msg
-    = P1x String
-    | P1y String
-    | P2x String
-    | P2y String
-    | Dist
+    = Update String
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-    P1x p1x ->
-      {model | p1x = p1x}
 
-    P1y p1y ->
-      { model | p1y = p1y}
-
-    P2x p2x ->
-      { model | p2x = p2x}
-
-    P2y p2y ->
-      { model | p2y = p2y}
-
-    Dist ->
-      { model |
-          point1 = { x = Result.withDefault 0 (String.toInt p1x)
-                   , y = Result.withDefault 0 (String.toInt p1y) }
-        , point2 = { x = Result.withDefault 0 (String.toInt p2x)
-                   , y =  p2x) }
-      }
+    Update fracOrder ->
+      { model | fracOrder = (Result.withDefault 0 (String.toInt fracOrder))}
 
 
 -- view
 
 view : Model -> Html Msg
 view model =
+
+
+
   div []
-    [ text "Point 1: "
-    , div [] [ input [ type_ "text", placeholder "X=", onInput P1x ] [] ]
-    , input [ type_ "text", placeholder "Y=", onInput P1y ] []
-    , div [] [ text "Point 2: " ]
-    , div [] [ input [type_ "text", placeholder "X=", onInput P2x ] [] ]
-    , input [type_ "text", placeholder "Y=", onInput P2y ] []
-    , div [] [ button [ onClick Dist] [ text "Calculate Distance" ]]
-    , div [] [ text "x"]
+      [
+      svg [ viewBox "0 0 400 400",  Svg.Attributes.height "400px", Svg.Attributes.width "400px" ]
+      [
+       polygon [fill "none", stroke "black", points "200,10 10,390 390,390"][]
+      ]
+      , br [][]
+      , br [][]
+      , input [ Html.Attributes.type_ "range", Html.Attributes.min "0"
+                                               , Html.Attributes.max "10"
+                                               , value <| toString model.fracOrder
+                                               , onInput Update] []
+      , Html.text <| toString model.fracOrder
+      , Html.text  <| (genpoints model.fracOrder 400 400)
     ]
