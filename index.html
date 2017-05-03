@@ -8701,7 +8701,6 @@ var _user$project$Main$genPolys = F3(
 			order,
 			A3(_user$project$Main$genInitialPoints, order, w, h));
 	});
-var _user$project$Main$plist = '200,10 10,390 390,390';
 var _user$project$Main$vHeight = 400;
 var _user$project$Main$vWidth = 400;
 var _user$project$Main$Point = F2(
@@ -8722,27 +8721,31 @@ var _user$project$Main$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$svg$Svg$svg,
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$svg$Svg_Attributes$viewBox('0 0 400 400'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$svg$Svg_Attributes$height('400px'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$width('400px'),
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				A3(_user$project$Main$genPolys, model.fracOrder, _user$project$Main$vWidth, _user$project$Main$vHeight)),
+					_0: _elm_lang$html$Html$text('Sirpenski\'s Triangle'),
+					_1: {ctor: '[]'}
+				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$br,
-					{ctor: '[]'},
-					{ctor: '[]'}),
+					_elm_lang$svg$Svg$svg,
+					{
+						ctor: '::',
+						_0: _elm_lang$svg$Svg_Attributes$viewBox('0 0 400 400'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$svg$Svg_Attributes$height('400px'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$svg$Svg_Attributes$width('400px'),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					A3(_user$project$Main$genPolys, model.fracOrder, _user$project$Main$vWidth, _user$project$Main$vHeight)),
 				_1: {
 					ctor: '::',
 					_0: A2(
@@ -8752,45 +8755,52 @@ var _user$project$Main$view = function (model) {
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$div,
+							_elm_lang$html$Html$br,
 							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Fractal Order'),
-								_1: {ctor: '[]'}
-							}),
+							{ctor: '[]'}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$input,
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('range'),
-									_1: {
+									_0: _elm_lang$html$Html$text('Fractal Order'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$min('0'),
+										_0: _elm_lang$html$Html_Attributes$type_('range'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$max('10'),
+											_0: _elm_lang$html$Html_Attributes$min('0'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(
-													_elm_lang$core$Basics$toString(model.fracOrder)),
+												_0: _elm_lang$html$Html_Attributes$max('10'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Update),
-													_1: {ctor: '[]'}
+													_0: _elm_lang$html$Html_Attributes$value(
+														_elm_lang$core$Basics$toString(model.fracOrder)),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$Update),
+														_1: {ctor: '[]'}
+													}
 												}
 											}
 										}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(
-									_elm_lang$core$Basics$toString(model.fracOrder)),
-								_1: {ctor: '[]'}
+									},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										_elm_lang$core$Basics$toString(model.fracOrder)),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}
