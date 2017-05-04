@@ -8701,6 +8701,31 @@ var _user$project$Main$genPolys = F3(
 			order,
 			A3(_user$project$Main$genInitialPoints, order, w, h));
 	});
+var _user$project$Main$getvHeight = function (h) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(h),
+		'px');
+};
+var _user$project$Main$getvWidth = function (w) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(w),
+		'px');
+};
+var _user$project$Main$getViewDims = F2(
+	function (w, h) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'0 0 ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(w),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					' ',
+					_elm_lang$core$Basics$toString(h))));
+	});
 var _user$project$Main$vHeight = 400;
 var _user$project$Main$vWidth = 400;
 var _user$project$Main$Point = F2(
@@ -8734,13 +8759,16 @@ var _user$project$Main$view = function (model) {
 					_elm_lang$svg$Svg$svg,
 					{
 						ctor: '::',
-						_0: _elm_lang$svg$Svg_Attributes$viewBox('0 0 400 400'),
+						_0: _elm_lang$svg$Svg_Attributes$viewBox(
+							A2(_user$project$Main$getViewDims, _user$project$Main$vHeight, _user$project$Main$vWidth)),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$height('400px'),
+							_0: _elm_lang$svg$Svg_Attributes$height(
+								_user$project$Main$getvHeight(_user$project$Main$vHeight)),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$svg$Svg_Attributes$width('400px'),
+								_0: _elm_lang$svg$Svg_Attributes$width(
+									_user$project$Main$getvWidth(_user$project$Main$vWidth)),
 								_1: {ctor: '[]'}
 							}
 						}
