@@ -121,7 +121,7 @@ With these three pieces in place we can now dive into the functions that are use
 
 
 
-<u>The Functions</u>
+### *The Functions*
 
 > A note on Elm syntax '|>' is an insertion operator indicating we want to take   the output of the item on the left and insert into the item on the right. You may have noticed in our view we have the opposite version of this '<|', meaning take the output on the right and insert into the item on the left.
 
