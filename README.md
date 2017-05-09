@@ -18,7 +18,7 @@ We will take a look at each of these parts with examples from our Sierpinski's T
 
 
 
-<u>Model</u>
+**Model**
 
 ```javas
 type alias Model =
@@ -37,7 +37,7 @@ Here we can see we define a type Model and give it an integer element of fracOrd
 
 
 
-<u>Update</u>
+**Update**
 
 ```javascript
 type Msg
@@ -64,7 +64,7 @@ As  you can see this is a fairly wordy conversion, but we accomplish two things,
 
 
 
-<u>View</u>
+**View**
 
 The magic of what we see in the browser happens in the view:
 
