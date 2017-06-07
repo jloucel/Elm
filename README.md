@@ -2,13 +2,13 @@
 
 This is a simple project to illustrate the use of the Elm programming language. Check out the demo [here](https://jloucel.github.io/Elm/).
 
-Elm is a purely functional programming language developed for use in web browsers that compiles to HTML, CSS, and JavaScript. It boasts superior performance and no runtime exceptions.
+Elm is a purely functional programming language developed for use in web browsers that compiles to HTML, CSS, and JavaScript. It boasts superior performance and no runtime exceptions. If you are familiar with object oriented programming you may find the functional approach challenging at first as you will have to change the way you conceptualize data and state, but that's part of the adventure!
 
-You can (and should) review the examples and even integrate Elm features into your existing site by embedding into JavaScript! Check it out [here](http://elm-lang.org/).  You can also take advantage of an active community on [Reddit](https://www.reddit.com/r/elm/) and [Slack](http://elmlang.herokuapp.com/) to help you get started.
+You can (and should) review the examples and even try integrating some Elm features into your existing site by embedding into JavaScript! Check it out [here](http://elm-lang.org/).  You can also take advantage of an active community on [Reddit](https://www.reddit.com/r/elm/) and [Slack](http://elmlang.herokuapp.com/) to help you get started.
 
 ### *Getting Started*
 
-Understanding Elm Architecture.  Every interactive Elm program is based around three main parts:
+Understanding Elm Architecture.  Every interactive Elm program is composed around three main parts:
 
 - Model - maintains state
 - View - update state
@@ -33,7 +33,7 @@ model =
 
 ```
 
-Here we can see we define a type Model and give it an integer element of fracOrder. This will be the container of the user requested fractal order. This is updated each time the user slides the range selector on the web page. At each update new Model is generated containing the new state of fracOrder.
+Here we define a type Model and give it an integer element of fracOrder. This will be the container of the user requested fractal order. This is updated each time the user slides the range selector on the web page. At each update new Model is generated containing the new state of fracOrder.
 
 
 
@@ -54,13 +54,13 @@ Update gives us a look at the function type declaration:
 
 ​	`update : Msg -> Model -> Model`
 
-Here we define the function template which allows Elm to perform it's strict type checking. In this case we are taking a Msg, which is a String, a Model, and returning a Model. 
+First we define the function template, which allows Elm to perform it's strict type checking. In this case we are taking a Msg, which is a String, a Model, and returning a Model. 
 
-The Msg comes to us from the view, as the result of an event. We will see this in a moment. In this program we are capturing the user updating the fractal order range selector. Since we defined the fracOrder as in integer in our Model we have to convert the string value that is captures by the user update to an integer as seen here:
+The Msg comes to us from the view, as the result of an event. We will see this in a moment. In this program we are capturing the user updating the fractal order range selector. Since we defined the fracOrder as in integer in our Model we have to convert the string value that is captured by the user update to an integer as seen here:
 
 `{ model | fracOrder = (Result.withDefault 0 (String.toInt fracOrder)) }` 
 
-As  you can see this is a fairly wordy conversion, but we accomplish two things, first we trap any errors if we fail to convert the input to an integer we provide a default value of '0', or if successful we return the integer value of the input. This value is now stored in model and returned.
+This is a fairly wordy conversion, but we accomplish two things, first we trap any conversion errors, if we fail to convert the input to an integer we provide a default value of '0'. This value is then stored in model and returned.
 
 
 
@@ -92,7 +92,7 @@ view model =
 
 There are a few key things to notice here, first is that we provide the structure of the web page here. Utilizing the Elm packaged version of HTML tags we can provide all the structure of an HTML page similar to how we may write standard HTML.
 
-In this example I have created a few helper methods that return constant values to us, so if we wanted to change the size of our viewBox we can edit a couple of values in our page and everywhere these values are needed will also get updated:
+In this example I have created a few helper methods that return constant values to us, so if we wanted to change the size of our viewBox we can edit a couple of values in our code and everywhere these values are needed will also get updated:
 
 ```javascript
 -- get viewBox dimentions string
@@ -115,7 +115,7 @@ These functions facilitate providing string values to our view objects so that t
 
 Now notice our input is a range input. You can see how we set various attributes for these elements in Elm. Since we want to limit the fractal order to 10 we set the max for our range selector at 10. We then take that value and push it into our model and call Update on input. This then runs the update method and updates the model.
 
-Finally the actual work of generating Sierpenski's triangle is accomplished by calling `(genPolys model.fracOrder vWidth vHeight)`. We pass the fracOrder width and height to the genPolys function, which produces a list of objects that are drawn in the SVG viewBox.
+Finally the actual work of generating Sierpenski's triangle is accomplished by calling `(genPolys model.fracOrder vWidth vHeight)`. We pass the fracOrder width and height to the genPolys function, which produces a list of polygons that are drawn in the SVG viewBox.
 
 With these three pieces in place we can now dive into the functions that are used to create our triangles.
 
@@ -123,7 +123,7 @@ With these three pieces in place we can now dive into the functions that are use
 
 ### *The Functions*
 
-> A note on Elm syntax '|>' is an insertion operator indicating we want to take   the output of the item on the left and insert into the item on the right. You may have noticed in our view we have the opposite version of this '<|', meaning take the output on the right and insert into the item on the left.
+> A note on Elm syntax '|>' is an insertion operator indicating we want to take the output of the item on the left and insert into the item on the right. You may have noticed in our view we have the opposite version of this '<|', meaning take the output on the right and insert into the item on the left.
 
 
 
@@ -137,11 +137,11 @@ type alias Point =
 
 ```
 
-As we can see here a Triangle is defined as a list of Points. A Point is defined as a record containing an x and y value of type float. As you can see we have many degrees of freedom building up complex types.
+Here we define a Triangle as a list of Points. A Point is defined as a record containing an x and y value of type float. As you can see we have many degrees of freedom building up complex types.
 
 As we discuss the functions keep in mind that a Triangle is a list of points that represent each corner of the triangle. You will see how we take advantage of this structure as we generate our output.
 
-At each new order we must perform some recursive tasks to generate a list of triangle that will be displayed in the SVG viewBox. We accomplish this by chaining together several function calls to produce the necessary output. Lets start with genPolys and see how we start the process.
+At each new order we must perform some recursive tasks to generate a list of triangles that will be displayed in the SVG viewBox. We accomplish this by chaining together several function calls to produce the necessary output. This is a simple example of function composition, which is a key concept in functional programming. Lets start with genPolys and see how we start the process.
 
  ```javascript
 -- entry point to Sirpenski generation
@@ -151,7 +151,7 @@ genPolys order w h =
   |> genManyTriangles order
  ```
 
-Here we can see that genPolys is taking in three integer values and returning a list of Svg Msg, polygons which we have defined as Triangles. At each fractal order we have to build up a list of polygons, so we start by generating the initial triangle and inserting this triangle into genManyTriangles along with the order.  Let's look at genInitialPoins:
+Here we see that genPolys is taking in three integer values and returning a list of Svg Msg, polygons which we have defined as Triangles. At each fractal order we have to build up a list of polygons, so we start by generating the initial triangle and inserting this triangle into genManyTriangles along with the order.  Let's look at genInitialPoins:
 
 ```javascript
 -- generates the initial points of the fractal
@@ -167,7 +167,7 @@ genInitialPoints order w h =
 
 We perform some basic math and create our initial triangle in relation to the Svg container we defined in our view.  We then return these points as a tuple. For simplicity in this program using a tuple works well as we don't have to handle the maybe case of a list being empty. We know that each triangle will have three points and we can easily manage this within a tuple. 
 
-We also see let binding. the 'let' keyword is used to assign values to local variables which we can then use to generate our triangle. Using 'let' can also allow us to do some interesting things, such as pass output to another function, which will help us in building up our list of triangles.
+We also see the use of let binding. The 'let' keyword is used to assign values to local variables which we can then use to generate our triangle. Using 'let' can also allow us to do some interesting things, such as pass output to another function, which will help us in building up our list of triangles.
 
 Next we step into genManyTriangles:
 
@@ -202,6 +202,6 @@ genSubTriangles plist =
       ((p1, p12, p31),(p12, p2, p23),(p31, p23, p3))
 ```
 
-This function then will pull out the points of the passed triangle, find the middle point of side of the triangle, and then generate a tuple of three new triangles. At this step we can now recur across each of the sub triangles and the whole process can basically repeat infinitely, though at order 10 we are already generating just under 60,000 triangles!  At each recursive step we also pass a decremented order to genManyTriangles. In this way we are able to build up the list of all triangles needed to fill the Sierpenski triangle at a given order. 
+This function then will pull out the points of the passed triangle, find the middle point of each side of the triangle, and then generate a tuple of three new triangles. At this step we can now recur across each of the sub triangles and the whole process can basically repeat infinitely, though at order 10 we are already generating just under 60,000 triangles!  At each recursive step we also pass a decremented order to genManyTriangles. In this way we are able to build up the list of all triangles needed to fill the Sierpenski triangle at a given order. 
 
 Hopefully this walk-through gives you a solid entry point for beginning functional programming with Elm! Happy Coding!
